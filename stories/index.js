@@ -13,6 +13,10 @@ import InterviewerList from "components/InterviewerList";
 import Appointment from "components/Appointment/index.js"
 import Header from "components/Appointment/Header.js"
 import Empty from "components/Appointment/Empty.js"
+import Show from "components/Show.js"
+import Confirm from "components/Confirm.js"
+import Status from "components/Status.js"
+import Error from "components/Error.js"
 
 storiesOf("Button", module)
   .addParameters({
@@ -143,3 +147,7 @@ storiesOf("InterviewerListItem", module)
   .add("Appointment with Time", () => <Appointment time="12"/>)
   .add("Header",() => <Header time="12"/>)
   .add("Empty",() => <Empty onAdd={action("onAdd")}/>)
+  .add("Show",() => <Show student="Lydia Miller-Jones" interviewer="Sylvia Palmer" onEdit={action("onEdit")} onDelete={action("onDelete")}/>)
+  .add("Confirm",() => <Confirm message="Delete the appointment?" onConfirm={action("onConfirm")} onCancel={action("onCancel")}></Confirm>)
+  .add("Status",() => <Status message="Deleting"></Status>)
+  .add("Error",() => <Error message="Could not delete appointment." onClose={action("onClose")}></Error>)
