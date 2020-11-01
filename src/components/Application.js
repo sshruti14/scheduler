@@ -4,7 +4,8 @@ import axios from "axios";
 import "components/Application.scss";
 import DayList from "components/DayList";
 import Appointment from "components/Appointment";
-import { getAppointmentsForDay,getInterview } from '../helpers/selectors.js';
+import { getAppointmentsForDay,getInterview,getInterviewersForDay } from '../helpers/selectors.js';
+
 
 // const appointments = [
 //   {
@@ -37,7 +38,10 @@ import { getAppointmentsForDay,getInterview } from '../helpers/selectors.js';
 //   }
 // ];
 
+
+
 export default function Application(props) {
+  //console.log(props);
   //Combining the individual states
   const [state, setState] = useState({
     day: "Monday",
@@ -50,6 +54,7 @@ export default function Application(props) {
   const setDay = (day) => setState({ ...state, day });
   //const setDays = days => setState(prev => ({ ...prev, days }));
 
+
   useEffect(() => {
     const daysUrl = "http://localhost:8001/api/days";
 
@@ -59,7 +64,7 @@ export default function Application(props) {
       axios.get("http://localhost:8001/api/interviewers"),
     ]).then((all) => {
       setState((prev) => ({
-        ...prev,
+       ...prev,
         days: all[0].data,
         appointments: all[1].data,
         interviewers: all[2].data,
@@ -69,8 +74,35 @@ export default function Application(props) {
 
     //Add the line below:
     const dailyAppointments = getAppointmentsForDay(state, state.day);
-    
+    //TOfetch all the interviewers
+    const interviewers = getInterviewersForDay(state, state.day);
 
+    
+    function bookInterview(id, interview) {
+      //console.log(id, interview);
+
+      const appointment = {
+        ...state.appointments[id],
+        interview: { ...interview }
+      };
+
+      const appointments = {
+        ...state.appointments,
+        [id]: appointment
+      };
+
+      return (
+        axios.put("/api/appointments/" + id, {
+          interview
+        }).then((response) => {
+          //console.log(`day: ${JSON.stringify(newDays)}`)
+          setState({
+            ...state,
+            appointments
+          });
+        })
+      )
+    };
 
   const appointmentList = dailyAppointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview);
@@ -80,6 +112,8 @@ export default function Application(props) {
       id={appointment.id}
       time={appointment.time}
       interview={interview}
+      interviewers={interviewers}
+      bookInterview={bookInterview}
     />
   )
   });

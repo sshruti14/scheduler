@@ -4,8 +4,6 @@ import Button from "components/Button.js"
 
 export default function Form(props){
 
-  console.log(props.interviewer);
-
   const [name, setName] = useState(props.name || "");
   const [interviewer, setInterviewer] = useState(props.interviewer || null);
   const [error, setError] = useState("");
