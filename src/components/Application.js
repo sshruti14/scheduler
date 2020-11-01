@@ -104,6 +104,46 @@ export default function Application(props) {
       )
     };
 
+    
+
+    const cancelInterview = (id, interview) => {
+      const appointment = {
+        ...state.appointments[id]
+      };
+      const appointments = {
+        ...state.appointments,
+        [id]: appointment
+      };
+  
+      // const day = getDay(id)
+      // let newDay = {
+      //   ...day,
+      //   spots: day.spots + 1
+      // }
+      // let newDays = state.days
+  
+      // for (let i = 0; i < state.days.length; i++) {
+      //   if (state.days[i].id === newDay.id) {
+      //     newDays.splice(i, 1, newDay)
+      //   }
+      // }
+  
+      return (
+        axios.delete("/api/appointments/" + id, {
+          interview
+        }).then((response) => {
+          //console.log(`day: ${JSON.stringify(newDays)}`)
+          setState({
+            ...state,
+            appointments
+            //days: newDays
+          });
+        })
+      )
+    };
+  
+
+
   const appointmentList = dailyAppointments.map((appointment) => {
     const interview = getInterview(state, appointment.interview);
     return(
@@ -114,6 +154,7 @@ export default function Application(props) {
       interview={interview}
       interviewers={interviewers}
       bookInterview={bookInterview}
+      cancelInterview={cancelInterview}
     />
   )
   });
