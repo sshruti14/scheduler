@@ -3,6 +3,7 @@ import axios from 'axios';
 
 export default function useVisualMode() {
 
+
   const [state, setState] = useState({
     day: "Monday",
     days: [],
@@ -31,6 +32,12 @@ export default function useVisualMode() {
     });
   }, []);
 
+  function getDay(appointmentId) {
+    //console.log(state.days.filter(day => day.appointments.includes(appointmentId))[0]);
+    return state.days.filter(day => day.appointments.includes(appointmentId))[0]
+  }
+
+
   function bookInterview(id, interview) {
     //console.log(id, interview);
 
@@ -44,6 +51,19 @@ export default function useVisualMode() {
       [id]: appointment
     };
 
+    const day = getDay(id)
+    let newDay = {
+      ...day,
+      spots: day.spots - 1
+    }
+    let newDays = state.days
+
+    for (let i = 0; i < state.days.length; i++) {
+      if (state.days[i].id === newDay.id) {
+        newDays.splice(i, 1, newDay)
+      }
+    }
+
     return (
       axios.put("/api/appointments/" + id, {
         interview
@@ -51,7 +71,8 @@ export default function useVisualMode() {
         //console.log(`day: ${JSON.stringify(newDays)}`)
         setState({
           ...state,
-          appointments
+          appointments,
+          days: newDays
         });
       })
     )
@@ -68,18 +89,18 @@ export default function useVisualMode() {
       [id]: appointment
     };
 
-    // const day = getDay(id)
-    // let newDay = {
-    //   ...day,
-    //   spots: day.spots + 1
-    // }
-    // let newDays = state.days
+    const day = getDay(id)
+    let newDay = {
+      ...day,
+      spots: day.spots + 1
+    }
+    let newDays = state.days
 
-    // for (let i = 0; i < state.days.length; i++) {
-    //   if (state.days[i].id === newDay.id) {
-    //     newDays.splice(i, 1, newDay)
-    //   }
-    // }
+    for (let i = 0; i < state.days.length; i++) {
+      if (state.days[i].id === newDay.id) {
+        newDays.splice(i, 1, newDay)
+      }
+    }
 
     return (
       axios.delete("/api/appointments/" + id, {
@@ -88,8 +109,8 @@ export default function useVisualMode() {
         //console.log(`day: ${JSON.stringify(newDays)}`)
         setState({
           ...state,
-          appointments
-          //days: newDays
+          appointments,
+          days: newDays
         });
       })
     )
