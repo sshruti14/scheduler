@@ -15,14 +15,15 @@ export default function Form(props){
     setInterviewer("");
   }
   function validate() {
+    console.log('Inside validate'+ interviewer === null);
     if (name === "") {
       setError("Student name cannot be blank");
       return;
     }
-    if(interviewer === null){
-      setError("Interviewer name cannot be blank");
-      return;
-    }
+    // if(interviewer === null){
+    //   setError("Interviewer name cannot be blank");
+    //   return;
+    // }
     setError("");
     props.onSave(name, interviewer);
   }
@@ -39,14 +40,16 @@ export default function Form(props){
         placeholder="Enter Student Name"
         onChange={(event) => setName(event.target.value)}
         value={name}
+        data-testid="student-name-input"
       />
     </form>
+    <section className="appointment__validation">{error}</section>
     <InterviewerList interviewers={props.interviewers} interviewer={interviewer} value={interviewer} setInterviewer={setInterviewer}  />
   </section>
   <section className="appointment__card-right">
     <section className="appointment__actions">
       <Button danger onClick={() => props.onCancel(reset())}>Cancel</Button>
-      <Button confirm onClick={() => props.onSave(validate())}>Save</Button>
+      <Button confirm onClick={validate}>Save</Button>
     </section>
   </section>
 </main>
