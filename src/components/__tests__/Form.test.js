@@ -65,7 +65,7 @@ describe("Form", () => {
       target: { value: "Lydia Miller-Jones" }
     });
 
-  //  fireEvent.click(getByAltText("Sylvia Palmer"));
+    fireEvent.click(getByAltText("Sylvia Palmer"));
   
 
 
@@ -74,7 +74,7 @@ describe("Form", () => {
     expect(queryByText(/student name cannot be blank/i)).toBeNull();
   
     expect(onSave).toHaveBeenCalledTimes(1);
-    expect(onSave).toHaveBeenCalledWith("Lydia Miller-Jones",null)
+    expect(onSave).toHaveBeenCalledWith("Lydia Miller-Jones",1)
   });
 
   
