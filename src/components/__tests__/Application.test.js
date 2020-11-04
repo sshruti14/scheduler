@@ -11,6 +11,7 @@ import {
   getAllByTestId,
   getByAltText,
   getByPlaceholderText,
+  queryByText
 } from "@testing-library/react";
 
 import Application from "components/Application";
@@ -42,6 +43,16 @@ it("loads data, books an interview and reduces the spots remaining for Monday by
   fireEvent.click(getByAltText(appointment, "Sylvia Palmer"));
 
   fireEvent.click(getByText(appointment, "Save"));
+
+  expect(getByText(appointment, "Saving")).toBeInTheDocument();
+
+  await waitForElement(() => queryByText(appointment, "Lydia Miller-Jones"));
+
+    const day = getAllByTestId(container, "day").find(day =>
+      queryByText(day, "Monday")
+    );
+    
+    expect(getByText(day, "no spots remaining")).toBeInTheDocument();
 
   
 });
