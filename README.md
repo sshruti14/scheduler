@@ -21,3 +21,15 @@ npm test
 ```sh
 npm run storybook
 ```
+## ScreenShots
+!["ScreenShot of Interview Scheduler Landing Page"](https://github.com/sshruti14/scheduler/blob/master/docs/Landing_Page.PNG)
+!["ScreenShot for Adding Appointment"](https://github.com/sshruti14/scheduler/blob/master/docs/Add_Appointment.PNG)
+!["ScreenShot of Deletion Confirm"](https://github.com/sshruti14/scheduler/blob/master/docs/Delete_Confirm.PNG)
+!["ScreenShot of Deleting"](https://github.com/sshruti14/scheduler/blob/master/docs/Deleting_Appointment.png)
+
+
+
+
+
+
+
