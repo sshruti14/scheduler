@@ -44,21 +44,20 @@ export default function useVisualMode() {
       [id]: appointment,
     };
 
-      // Decrement spots
-      const days = [...state.days];
-      for (let dayIndex in days) {
-        let day = days[dayIndex];
-        if (day.appointments.includes(id)) {
-          const newDay = { ...day, spots: day.spots - 1 };
-          days[dayIndex] = newDay;
-        }
+    // Decrement spots
+    const days = [...state.days];
+    for (let dayIndex in days) {
+      let day = days[dayIndex];
+      if (day.appointments.includes(id)) {
+        const newDay = { ...day, spots: day.spots - 1 };
+        days[dayIndex] = newDay;
       }
-  
-      return axios.put(`/api/appointments/${id}`, { interview }).then(() => {
-        setState({ ...state, appointments, days });
-      });
-    };
-  
+    }
+
+    return axios.put(`/api/appointments/${id}`, { interview }).then(() => {
+      setState({ ...state, appointments, days });
+    });
+  }
 
   const cancelInterview = (id, interview) => {
     const appointment = {
@@ -69,46 +68,20 @@ export default function useVisualMode() {
       [id]: appointment,
     };
 
-  //   const day = getDay(id);
-  //   let newDay = {
-  //     ...day,
-  //     spots: day.spots + 1,
-  //   };
-  //   let newDays = state.days;
-
-  //   for (let i = 0; i < state.days.length; i++) {
-  //     if (state.days[i].id === newDay.id) {
-  //       newDays.splice(i, 1, newDay);
-  //     }
-  //   }
-
-  //   return axios
-  //     .delete("/api/appointments/" + id, {
-  //       interview,
-  //     })
-  //     .then((response) => {
-  //       //console.log(`day: ${JSON.stringify(newDays)}`)
-  //       setState({
-  //         ...state,
-  //         appointments,
-  //         days: newDays,
-  //       });
-  //     });
-  // };
-  // Increment spots
-  const days = [...state.days];
-  for (let dayIndex in days) {
-    let day = days[dayIndex];
-    if (day.appointments.includes(id)) {
-      const newDay = { ...day, spots: day.spots + 1 };
-      days[dayIndex] = newDay;
+    // Increment spots
+    const days = [...state.days];
+    for (let dayIndex in days) {
+      let day = days[dayIndex];
+      if (day.appointments.includes(id)) {
+        const newDay = { ...day, spots: day.spots + 1 };
+        days[dayIndex] = newDay;
+      }
     }
-  }
 
-  return axios
-    .delete(`/api/appointments/${id}`)
-    .then(() => setState({ ...state, appointments, days }));
-};
+    return axios
+      .delete(`/api/appointments/${id}`)
+      .then(() => setState({ ...state, appointments, days }));
+  };
 
   const editInterview = (id, interview) => {
     const appointment = {
@@ -121,7 +94,7 @@ export default function useVisualMode() {
     };
 
     return axios
-      .put("/api/appointments/" + id, {interview})
+      .put("/api/appointments/" + id, { interview })
       .then((response) => {
         //console.log(`day: ${JSON.stringify(newDays)}`)
         setState({
